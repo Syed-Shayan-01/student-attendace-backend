@@ -53,7 +53,7 @@ const ImageUploader = async () => {
 const AttendaceUser = async (req, res) => {
     try {
         const { name, email, password, course, phoneNumber, image } = req.body;
-        const ImageResult = ImageUploader(image);
+        const ImageResult = uploadImage();
         console.log(ImageResult)
         const saveData = new Attendance({
             name,
