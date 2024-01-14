@@ -26,27 +26,35 @@ exports.upload = multer({
     storage,
 })
 const ImageUploader = async () => {
-    const files = fs.readdirSync(`${filePath}`);
-    const uploadPromises = files.map(file => new Promise((resolve, reject) =>
-        cloudinary.v2.uploader.upload(`${filePath}/${file}`, (error, result) => {
-            if (error) {
-                reject(error);
-            } else {
-                fs.remove(`./public/image/${file}`, err => err ? reject(err) : resolve( result.url));
-            }
-        })
-    ));
+    return new Promise((resolve, reject) => {
+        fs.readdirSync("./public/image").forEach((file) => {
+            cloudinary.v2.uploader.upload(`./public/image/${file}`, (error, result) => {
 
-    return await Promise.all(uploadPromises);
+                fs.remove(`./public/image/${file}`, err => {
+                    if (err) {
+                        reject(err)
+
+                    }
+                })
+                if (error) {
+                    reject(error)
+                }
+                else {
+                    resolve(result.url)
+                }
+
+
+            })
+        });
+    });
 };
 
 
 const AttendaceUser = async (req, res) => {
-
     try {
         const { name, email, password, course, phoneNumber, image } = req.body;
-        const ImageResult = await ImageUploader(image);
-        // console.log(ImageResult)
+        const ImageResult = ImageUploader(image);
+        console.log(ImageResult)
         const saveData = new Attendance({
             name,
             email,
