@@ -15,6 +15,6 @@ app.use(cors());
 const PORT = process.env.PORT
 
 app.use('/admin', verifyToken, Indexrouter)
-app.use('/', attendRouter)
+app.use('', attendRouter)
 app.use('/auth', authRouter)
 app.listen(PORT)

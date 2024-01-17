@@ -25,45 +25,61 @@ const storage = multer.diskStorage({
 exports.upload = multer({
     storage,
 })
-const ImageUploader = async () => {
-    return new Promise((resolve, reject) => {
-        fs.readdirSync("./public/image").forEach((file) => {
-            cloudinary.v2.uploader.upload(`./public/image/${file}`, (error, result) => {
+// const ImageUploader = async () => {
+//     return new Promise((resolve, reject) => {
+//         const files = fs.readdirSync("./public/image");
+//         files.forEach((file) => {
+//             cloudinary.v2.uploader.upload(`./public/image/${file}`, (error, result) => {
+//                 if (error) {
+//                     console.error(`Error uploading file ${file}:`, error);
+//                     reject(error);
+//                 } else {
+//                     console.log(`File ${file} uploaded successfully`);
+//                     fs.remove(`./public/image/${file}`, (err) => {
+//                         if (err) {
+//                             console.error(`Error removing file ${file}:`, err);
+//                             reject(err);
+//                         } else {
+//                             resolve(result.url);
+//                         }
+//                     });
+//                 }
+//             });
+//         })
+//     })
+// };
 
-                fs.remove(`./public/image/${file}`, err => {
-                    if (err) {
-                        reject(err)
 
-                    }
-                })
-                if (error) {
-                    reject(error)
-                }
-                else {
-                    resolve(result.url)
-                }
-
-
-            })
-        });
-    });
-};
 
 
 const AttendaceUser = async (req, res) => {
     try {
-        const { name, email, password, course, phoneNumber, image } = req.body;
-        const ImageResult = uploadImage();
-        console.log(ImageResult)
+        const { name, email, password, course, phoneNumber } = req.body;
+        // const ImageResult = await ImageUploader(image);
+        // console.log("ImageResult:", ImageResult);
+
+        // const result = await cloudinary.v2.uploader.upload(`./public/image/${file}`, (err, result) => {
+        //     if (err) {
+        //         res.status(404).send({ status: 404, message: 'Image not upload in CLoudinary' })
+        //     }
+        // });
+        // console.log(result)
         const saveData = new Attendance({
             name,
             email,
             password,
             course,
             phoneNumber,
-            image: ImageResult,
+            // image: result.url,
         });
-
+        // await fs.remove(`./public/image/${file}`, (err) => {
+        //     if (err) {
+        //         console.error(`Error removing file ${file}:`, err);
+        //         reject(err);
+        //     } else {
+        //         resolve(result.url);
+        //     }
+        // });
         const check = await Attendance.findOne({ email });
 
         if (check) {
