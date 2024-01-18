@@ -58,28 +58,30 @@ const AttendaceUser = async (req, res) => {
         // const ImageResult = await ImageUploader(image);
         // console.log("ImageResult:", ImageResult);
 
-        // const result = await cloudinary.v2.uploader.upload(`./public/image/${file}`, (err, result) => {
-        //     if (err) {
-        //         res.status(404).send({ status: 404, message: 'Image not upload in CLoudinary' })
-        //     }
-        // });
-        // console.log(result)
+        const result = await cloudinary.v2.uploader.upload(`./public/image/${req.file.originalname}`, (err, result) => {
+            if (err) {
+                res.status(404).send({ status: 404, message: 'Image not upload in CLoudinary' })
+            } else {
+                console.log(result.url)
+            }
+        });
+        console.log(result)
         const saveData = new Attendance({
             name,
             email,
             password,
             course,
             phoneNumber,
-            // image: result.url,
+            image: result.url,
         });
-        // await fs.remove(`./public/image/${file}`, (err) => {
-        //     if (err) {
-        //         console.error(`Error removing file ${file}:`, err);
-        //         reject(err);
-        //     } else {
-        //         resolve(result.url);
-        //     }
-        // });
+        await fs.remove(`./public/image/${req.file.originalname}`, (err) => {
+            if (err) {
+                console.error(`Error removing file ${req.file.originalname}:`, err);
+                reject(err);
+            } else {
+                resolve(result.url);
+            }
+        });
         const check = await Attendance.findOne({ email });
 
         if (check) {
