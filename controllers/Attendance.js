@@ -58,13 +58,13 @@ const AttendaceUser = async (req, res) => {
         // const ImageResult = await ImageUploader(image);
         // console.log("ImageResult:", ImageResult);
 
-        const result = await cloudinary.v2.uploader.upload(`./public/image/${req.file.originalname}`, (err, result) => {
-            if (err) {
-                res.status(404).send({ status: 404, message: 'Image not upload in CLoudinary' })
-            } else {
-                console.log(result.url)
-            }
-        });
+        // const result = await cloudinary.v2.uploader.upload(`./public/image/${req.file.originalname}`, (err, result) => {
+        //     if (err) {
+        //         res.status(404).send({ status: 404, message: 'Image not upload in CLoudinary' })
+        //     } else {
+        //         console.log(result.url)
+        //     }
+        // });
         console.log(result)
         const saveData = new Attendance({
             name,
@@ -72,16 +72,16 @@ const AttendaceUser = async (req, res) => {
             password,
             course,
             phoneNumber,
-            image: result.url,
+            // image: result.url,
         });
-        await fs.remove(`./public/image/${req.file.originalname}`, (err) => {
-            if (err) {
-                console.error(`Error removing file ${req.file.originalname}:`, err);
-                reject(err);
-            } else {
-                resolve(result.url);
-            }
-        });
+        // await fs.remove(`./public/image/${req.file.originalname}`, (err) => {
+        //     if (err) {
+        //         console.error(`Error removing file ${req.file.originalname}:`, err);
+        //         reject(err);
+        //     } else {
+        //         resolve(result.url);
+        //     }
+        // });
         const check = await Attendance.findOne({ email });
 
         if (check) {
@@ -94,6 +94,7 @@ const AttendaceUser = async (req, res) => {
         return res.status(500).send({ status: 500, message: 'Internal Server Error' });
     }
 };
+ // Get User Data Controllet
 
 const getUser = async (req, res) => {
     try {

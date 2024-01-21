@@ -6,7 +6,7 @@ const attendSchema = mongoose.Schema({
     password: { type: String, required: true },
     course: { type: String, required: true },
     phoneNumber: { type: String, required: true },
-    image: { type: String }
+    // image: { type: String }
 })
 
 const Attendance = mongoose.model('Attendance', attendSchema)

@@ -12,9 +12,9 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors());
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 
+app.use('/data', attendRouter)
 app.use('/admin', verifyToken, Indexrouter)
-app.use('/attendance', attendRouter)
 app.use('/auth', authRouter)
-app.listen(PORT)
+app.listen(PORT);
