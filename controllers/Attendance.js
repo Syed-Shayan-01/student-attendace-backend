@@ -1,30 +1,29 @@
 const { Attendance } = require("../models/Attendance/attend");
-// const { addimage } = require("./UploadImages");
 const multer = require('multer');
 const fs = require('fs-extra')
 const path = require('path')
 const cloudinary = require('cloudinary');
 const filePath = path.join(process.cwd(), 'public', 'image')
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_KEY,
-    api_secret: process.env.CLOUD_SECRET
-});
+// cloudinary.config({
+//     cloud_name: process.env.CLOUD_NAME,
+//     api_key: process.env.CLOUD_KEY,
+//     api_secret: process.env.CLOUD_SECRET
+// });
 
 
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './public/image')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-})
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, './public/image')
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, file.originalname)
+//     }
+// })
 
-exports.upload = multer({
-    storage,
-})
+// exports.upload = multer({
+//     storage,
+// })
 // const ImageUploader = async () => {
 //     return new Promise((resolve, reject) => {
 //         const files = fs.readdirSync("./public/image");
@@ -65,7 +64,7 @@ const AttendaceUser = async (req, res) => {
         //         console.log(result.url)
         //     }
         // });
-        console.log(result)
+        // console.log(result)
         const saveData = new Attendance({
             name,
             email,

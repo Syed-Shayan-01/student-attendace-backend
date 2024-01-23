@@ -14,7 +14,7 @@ app.use(bodyParser.json())
 app.use(cors());
 const PORT = process.env.PORT;
 
-app.use('/data', attendRouter)
+app.use('/', attendRouter)
 app.use('/admin', verifyToken, Indexrouter)
 app.use('/auth', authRouter)
 app.listen(PORT);
